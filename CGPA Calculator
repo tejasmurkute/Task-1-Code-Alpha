@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+// Function to convert letter grade to grade point
+float calculateGradePoint(char grade) {
+    switch (grade) {
+        case 'A':
+            return 4.0;
+        case 'B':
+            return 3.0;
+        case 'C':
+            return 2.0;
+        case 'D':
+            return 1.0;
+        case 'F':
+            return 0.0;
+        default:
+            cout << "Invalid grade entered. Please enter a valid grade (A, B, C, D, F)." << endl;
+            return 0.0;
+    }
+}
+
+int main() {
+    int numCourses;
+    cout << "Enter the number of courses taken: ";
+    cin >> numCourses;
+
+    vector<float> courseCredits(numCourses);
+    vector<char> courseGrades(numCourses);
+
+    // Input details for each course
+    for (int i = 0; i < numCourses; ++i) {
+        cout << "Enter the credits for course " << (i + 1) << ": ";
+        cin >> courseCredits[i];
+
+        cout << "Enter the grade for course " << (i + 1) << " (A, B, C, D, F): ";
+        cin >> courseGrades[i];
+        courseGrades[i] = toupper(courseGrades[i]); // Convert to uppercase
+    }
+
+    // Calculate total credits and total grade points
+    float totalCredits = 0.0;
+    float totalGradePoints = 0.0;
+
+    for (int i = 0; i < numCourses; ++i) {
+        totalCredits += courseCredits[i];
+        totalGradePoints += courseCredits[i] * calculateGradePoint(courseGrades[i]);
+    }
+
+    // Calculate GPA for the semester
+    float gpa = (totalCredits > 0) ? (totalGradePoints / totalCredits) : 0.0;
+
+    // Output results
+    cout << fixed << setprecision(2); // Set decimal precision for output
+    cout << "\n--- Results ---" << endl;
+    for (int i = 0; i < numCourses; ++i) {
+        cout << "Course " << (i + 1) << ": Credits = " << courseCredits[i] 
+             << ", Grade = " << courseGrades[i] << endl;
+    }
+
+    cout << "Total Credits: " << totalCredits << endl;
+    cout << "Total Grade Points: " << totalGradePoints << endl;
+    cout << "GPA for the semester: " << gpa << endl;
+
+    // Assuming CGPA is equivalent to GPA for this semester
+    cout << "CGPA: " << gpa << endl;
+
+    return 0;
+}
